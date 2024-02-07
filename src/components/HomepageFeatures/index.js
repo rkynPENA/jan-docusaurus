@@ -4,38 +4,37 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: '100% open source',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Our core team believes that AI should be open source, and Jan is built in public.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Offline and Local First',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Conversations, preferences, and model usage stay on
+        your computer—secure, exportable, and can be deleted at any time.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'OpenAI Compatible',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Jan provides an OpenAI-equivalent API server at localhost: 1337
+        that can be used as a drop-in replacement with compatible apps.
       </>
     ),
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({ Svg, title, description }) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
