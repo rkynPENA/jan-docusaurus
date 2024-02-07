@@ -1,0 +1,4078 @@
+openapi: 3.0.3
+info:
+  title: Archive API Endpoints
+  version: 1.0.0
+  description: APIs for managing archives
+servers:
+  - url: https://main.assetpass.com/
+security:
+  - bearerAuth: []
+tags:
+  - name: actions
+    description: Operations related to actions
+  - name: archive-items
+    description: Operations related to archive items
+  - name: archives
+    description: Operations related to archives
+  - name: fcm-devices
+    description: Operations related to FCM devices
+  - name: memos
+    description: Operations related to memos
+paths:
+  /api/actions/:
+    get:
+      operationId: actions_list
+      summary: Get Actions List
+      description: Retrieves a list of actions.
+      tags:
+        - actions
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Action'
+              example:
+                - id: Suf5GReGMN8aXmfWo8SSaf
+                  title: ''
+                  body: LvarmiKWstWLEnJjvFHArm
+                  utype: trustee
+                  created: 2023-10-25 09:02
+                  album: VoWpVYpUwCgmbub4XAQZg8
+                  album_name: 'My Archive #1'
+                  status_label: Pending
+                  status_name: PENDING
+                - id: bkQCBdUbEAprRwEtZYB9Dk
+                  title: ''
+                  body: ipoAkk3m26njfojVaVfMSy
+                  utype: trustee
+                  created: 2023-10-25 09:02
+                  album: VoWpVYpUwCgmbub4XAQZg8
+                  album_name: 'My Archive #1'
+                  status_label: Pending
+                  status_name: PENDING
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+    post:
+      operationId: actions_create
+      summary: Create an Action
+      description: Creates a new action.
+      tags:
+        - actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ActionCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ActionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionUpdate'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+  /api/actions/{id}/:
+    get:
+      operationId: actions_retrieve
+      summary: Get an Action
+      description: Retrieves an action by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the action.
+          required: true
+      tags:
+        - actions
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Action'
+              example:
+                id: Suf5GReGMN8aXmfWo8SSaf
+                title: ''
+                body: LvarmiKWstWLEnJjvFHArm
+                utype: trustee
+                created: 2023-10-25 09:02
+                album: VoWpVYpUwCgmbub4XAQZg8
+                album_name: 'My Archive #1'
+                status_label: Request Done
+                status_name: REQ_DONE
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/actions/{id}/resend/:
+    post:
+      operationId: actions_resend_create
+      summary: Resend an Action
+      description: Resends a creation request for a specific action using its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the action.
+          required: true
+      tags:
+        - actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Action'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Action'
+      responses:
+        '204':
+          description: Action Resent Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archive-items/:
+    get:
+      operationId: archive_items_list
+      summary: Get Archive Items List
+      description: Retrieves a list of archive items.
+      parameters:
+        - in: query
+          name: album
+          schema:
+            type: string
+          description: The archive that the items belong to.
+          required: true
+      tags:
+        - archive-items
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ArchiveItem'
+              example:
+                - id: kNwrU9qkVPNoHZzamRnFTV
+                  item_size: 87 bytes
+                  item_name: albums/VoWpVYpUwCgmbub4XAQZg8/d4HpAsSbhEu5f6fLqmyZhr.aes
+                  created: 2023-10-25 07:06
+                  modified: 2023-10-25 07:06
+                  name: My Slack
+                  iv: DA0047758B307587BE0CAB31F4A16186
+                  item_type: acc
+                  extension: .txt
+                  checksum: TlGofgMBgw7id2hPpT+rVA==
+                  checksum_sha256: null
+                  file: >-
+                    https://assetpass.blob.core.windows.net/prod-uploads/albums/VoWpVYpUwCgmbub4XAQZg8/d4HpAsSbhEu5f6fLqmyZhr.aes?se=2023-10-27T14%3A55%3A18Z&sp=r&sv=2023-01-03&sr=b&sig=u3CsMv%2BnHXxWbZy83Oxdw7IKyBgTtFf4cDF5jtefhYI%3D
+                - id: mecngAAmcREFR4HgBGLti3
+                  item_size: 298.8 KB
+                  item_name: albums/VoWpVYpUwCgmbub4XAQZg8/nbYex6VDFi48Ug6ZXd8qnh.aes
+                  created: 2023-10-25 07:07
+                  modified: 2023-10-25 07:07
+                  name: My Background
+                  iv: 770DB6E8C5748B174F66659C1ED1780F
+                  item_type: med
+                  extension: .jpg
+                  checksum: 6szBclZ/hWiJwyvfGJuQVw==
+                  checksum_sha256: null
+                  file: >-
+                    https://assetpass.blob.core.windows.net/prod-uploads/albums/VoWpVYpUwCgmbub4XAQZg8/nbYex6VDFi48Ug6ZXd8qnh.aes?se=2023-10-27T14%3A55%3A18Z&sp=r&sv=2023-01-03&sr=b&sig=mXilQv34ayYhkqVRm%2BszyIny0mNP9wd8oZawqFUyqn0%3D
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+    post:
+      operationId: archive_items_create
+      summary: Create an Archive Item
+      description: Creates a new archive item.
+      tags:
+        - archive-items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArchiveItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateArchiveItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateArchiveItem'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveItem'
+              example:
+                id: csED3NM4CRV33scRDshqix
+                item_size: 255.7 KB
+                item_name: albums/39pbKyVoUFwprt8tm2CWvu/Asset_42300x_1.png
+                created: 2023-10-27 14:57
+                modified: 2023-10-27 14:57
+                name: testfile
+                iv: null
+                item_type: acc
+                extension: ''
+                checksum: null
+                checksum_sha256: null
+                file: >-
+                  https://assetpass.blob.core.windows.net/prod-uploads/albums/39pbKyVoUFwprt8tm2CWvu/Asset_42300x_1.png?se=2023-10-27T15%3A07%3A28Z&sp=r&sv=2023-01-03&sr=b&sig=ReD/9uGtPj6EfmlbGWQMoXJz8upylneaKc3Ll6dPlUU%3D
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archive-items/{id}/:
+    get:
+      operationId: archive_items_retrieve
+      summary: Get an Archive Item
+      description: Retrieves details of a specific archive item by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive item.
+          required: true
+      tags:
+        - archive-items
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveItem'
+              example:
+                id: csED3NM4CRV33scRDshqix
+                item_size: 255.7 KB
+                item_name: albums/39pbKyVoUFwprt8tm2CWvu/Asset_42300x_1.png
+                created: 2023-10-27 14:57
+                modified: 2023-10-27 14:57
+                name: testfile
+                iv: null
+                item_type: acc
+                extension: ''
+                checksum: null
+                checksum_sha256: null
+                file: >-
+                  https://assetpass.blob.core.windows.net/prod-uploads/albums/39pbKyVoUFwprt8tm2CWvu/Asset_42300x_1.png?se=2023-10-27T15%3A07%3A28Z&sp=r&sv=2023-01-03&sr=b&sig=ReD/9uGtPj6EfmlbGWQMoXJz8upylneaKc3Ll6dPlUU%3D
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    patch:
+      operationId: archive_items_partial_update
+      summary: Modify an Archive Item
+      description: Partially updates details of a specific archive item by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive item.
+          required: true
+      tags:
+        - archive-items
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchArchiveItem'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchArchiveItem'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchArchiveItem'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArchiveItem'
+              example:
+                id: csED3NM4CRV33scRDshqix
+                item_size: 255.7 KB
+                item_name: albums/39pbKyVoUFwprt8tm2CWvu/Asset_42300x_1.png
+                created: 2023-10-27 14:57
+                modified: 2023-10-27 15:04
+                name: filenameupdate
+                iv: null
+                item_type: acc
+                extension: ''
+                checksum: null
+                checksum_sha256: null
+                file: >-
+                  https://assetpass.blob.core.windows.net/prod-uploads/albums/39pbKyVoUFwprt8tm2CWvu/Asset_42300x_1.png?se=2023-10-27T15%3A14%3A09Z&sp=r&sv=2023-01-03&sr=b&sig=E6ziW5DYHELTshbEl3HZ5Dm4MJkt9Q86/yFj%2BlF20Sg%3D
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    delete:
+      operationId: archive_items_destroy
+      summary: Delete an Archive Item
+      description: Deletes a specific archive item by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive item.
+          required: true
+      tags:
+        - archive-items
+      responses:
+        '204':
+          description: Archive Item Deleted Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archives/:
+    get:
+      operationId: archive_list
+      summary: Get Archives List
+      description: Retrieves a list of archives.
+      tags:
+        - archives
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Archive'
+              example:
+                - id: 4PK4nBdAKeJxoEP3zy3PNY
+                  status_label: Draft
+                  status_name: DRAFT
+                  share_status: 0
+                  owner: Demo AssetPass
+                  action: {}
+                  album_size: 0 bytes
+                  created: 2023-10-25 11:52
+                  modified: 2023-10-25 11:52
+                  name: 'Archive #2'
+                  thumbnail: null
+                  deadline: null
+                  size: 0
+                  status: 1
+                  confirmed_date: null
+                  release_date: null
+                  delete_date: null
+                  next: null
+                  counter: 1
+                - id: VoWpVYpUwCgmbub4XAQZg8
+                  status_label: Stored for Future
+                  status_name: CONFIRMED
+                  share_status: 0
+                  owner: Demo AssetPass
+                  action: {}
+                  album_size: 87 bytes
+                  created: 2023-10-25 07:05
+                  modified: 2023-10-25 11:51
+                  name: 'My Archive #1'
+                  thumbnail: null
+                  deadline: 2023-10-25 00:00
+                  size: 0
+                  status: 2
+                  confirmed_date: 2023-10-25 09:02
+                  release_date: null
+                  delete_date: null
+                  next: null
+                  counter: 1
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+    post:
+      operationId: archives_create
+      summary: Create an Archive
+      description: Creates a new archive.
+      tags:
+        - archives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArchive'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateArchive'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateArchive'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Archive'
+              example:
+                id: 39pbKyVoUFwprt8tm2CWvu
+                status_label: Draft
+                status_name: DRAFT
+                share_status: 0
+                owner: Demo AssetPass
+                action: {}
+                album_size: 0 bytes
+                created: 2023-10-27 14:20
+                modified: 2023-10-27 14:20
+                name: demoarchive
+                thumbnail: null
+                deadline: null
+                size: 0
+                status: 1
+                confirmed_date: null
+                release_date: null
+                delete_date: null
+                next: null
+                counter: 1
+          description: Successful Response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      type: string
+                    description: Error messages related to the 'name' field.
+              example:
+                name:
+                  - This field is required.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+  /api/archives/{id}/:
+    get:
+      operationId: archives_retrieve
+      summary: Get an Archive
+      description: Retrieves a specific archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Archive'
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    patch:
+      operationId: archives_partial_update
+      summary: Modify an Archive
+      description: Partially updates details of a specific archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchArchive'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchArchive'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchArchive'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Archive'
+              example:
+                id: 39pbKyVoUFwprt8tm2CWvu
+                status_label: Draft
+                status_name: DRAFT
+                share_status: 0
+                owner: Demo AssetPass
+                action: {}
+                album_size: 0 bytes
+                created: 2023-10-27 14:20
+                modified: 2023-10-27 14:24
+                name: archiveupdatedname
+                thumbnail: null
+                deadline: null
+                size: 0
+                status: 1
+                confirmed_date: null
+                release_date: null
+                delete_date: null
+                next: null
+                counter: 1
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    delete:
+      operationId: archives_destroy
+      summary: Delete an Archive
+      description: Deletes an archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      responses:
+        '204':
+          description: Archive Deleted Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archives/{id}/deny_release/:
+    post:
+      operationId: archives_deny_release_create
+      summary: Deny Archive Release
+      description: Denies release of an archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Archive'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Archive'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Archive'
+      responses:
+        '204':
+          description: Archive Release Denied Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archives/{id}/order_release/:
+    post:
+      operationId: archives_order_release_create
+      summary: Order Archive Release
+      description: Orders release of a specific archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Archive'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Archive'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Archive'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Archive'
+              example:
+                id: string
+                status_label: string
+                status_name: string
+                share_status: string
+                owner: string
+                action: string
+                album_size: string
+                created: '2023-11-17T15:39:44.804Z'
+                modified: '2023-11-17T15:39:44.804Z'
+                name: string
+                thumbnail: string
+                deadline: '2023-11-17T15:39:44.804Z'
+                size: 9223372036854776000
+                status: 1
+                confirmed_date: '2023-11-17T15:39:44.804Z'
+                release_date: '2023-11-17T15:39:44.804Z'
+                delete_date: '2023-11-17T15:39:44.804Z'
+                next: '2023-11-17T15:39:44.804Z'
+                counter: 2147483647
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archives/{id}/approve_release/:
+    post:
+      operationId: archives_approve_release_create
+      summary: Approve an Archive Release
+      description: Approves an archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Archive'
+            example:
+              name: string
+              thumbnail: string
+              deadline: '2023-11-17T15:42:28.712Z'
+              size: 9223372036854776000
+              status: 1
+              confirmed_date: '2023-11-17T15:42:28.712Z'
+              release_date: '2023-11-17T15:42:28.712Z'
+              delete_date: '2023-11-17T15:42:28.712Z'
+              next: '2023-11-17T15:42:28.712Z'
+              counter: 2147483647
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Archive'
+            example:
+              name: string
+              thumbnail: string
+              deadline: '2023-11-17T15:42:28.712Z'
+              size: 9223372036854776000
+              status: 1
+              confirmed_date: '2023-11-17T15:42:28.712Z'
+              release_date: '2023-11-17T15:42:28.712Z'
+              delete_date: '2023-11-17T15:42:28.712Z'
+              next: '2023-11-17T15:42:28.712Z'
+              counter: 2147483647
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Archive'
+            example:
+              name: string
+              thumbnail: string
+              deadline: '2023-11-17T15:42:28.712Z'
+              size: 9223372036854776000
+              status: 1
+              confirmed_date: '2023-11-17T15:42:28.712Z'
+              release_date: '2023-11-17T15:42:28.712Z'
+              delete_date: '2023-11-17T15:42:28.712Z'
+              next: '2023-11-17T15:42:28.712Z'
+              counter: 2147483647
+      responses:
+        '204':
+          description: Archive Released
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archives/{id}/confirm_bank/:
+    post:
+      operationId: archives_confirm_bank_create
+      summary: Confirm and Bank an Archive
+      description: Confirms and banks an archive by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the archive.
+          required: true
+      tags:
+        - archives
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Archive'
+            example:
+              name: string
+              thumbnail: string
+              deadline: '2023-11-17T15:44:06.444Z'
+              size: 9223372036854776000
+              status: 1
+              confirmed_date: '2023-11-17T15:44:06.444Z'
+              release_date: '2023-11-17T15:44:06.444Z'
+              delete_date: '2023-11-17T15:44:06.444Z'
+              next: '2023-11-17T15:44:06.444Z'
+              counter: 2147483647
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Archive'
+            example:
+              name: string
+              thumbnail: string
+              deadline: '2023-11-17T15:44:06.444Z'
+              size: 9223372036854776000
+              status: 1
+              confirmed_date: '2023-11-17T15:44:06.444Z'
+              release_date: '2023-11-17T15:44:06.444Z'
+              delete_date: '2023-11-17T15:44:06.444Z'
+              next: '2023-11-17T15:44:06.444Z'
+              counter: 2147483647
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Archive'
+            example:
+              name: string
+              thumbnail: string
+              deadline: '2023-11-17T15:44:06.444Z'
+              size: 9223372036854776000
+              status: 1
+              confirmed_date: '2023-11-17T15:44:06.444Z'
+              release_date: '2023-11-17T15:44:06.444Z'
+              delete_date: '2023-11-17T15:44:06.444Z'
+              next: '2023-11-17T15:44:06.444Z'
+              counter: 2147483647
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Archive'
+              example:
+                id: gQn7xac2Wy9C54U3tpN6Gp
+                status_label: Stored for Future
+                status_name: CONFIRMED
+                share_status: 0
+                owner: Demo AssetPass
+                action: {}
+                album_size: 0 bytes
+                created: 2023-11-01 10:14
+                modified: 2023-11-01 10:26
+                name: Recipe Test
+                thumbnail: null
+                deadline: null
+                size: 0
+                status: 2
+                confirmed_date: 2023-11-01 10:26
+                release_date: null
+                delete_date: null
+                next: null
+                counter: 1
+          description: Successful Response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      type: string
+                    description: The detailed error message.
+              example:
+                error:
+                  - You need to add at least one trustee.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/archives/counts/:
+    get:
+      operationId: archives_counts_retrieve
+      summary: Get Archives Count
+      description: Retrieves the number of archives of a user.
+      tags:
+        - archives
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Archive'
+              example:
+                actions: 0
+                owner: 2
+                trustee: 0
+                recipient: 0
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/fcm-devices/:
+    get:
+      operationId: fcm_devices_list
+      summary: Get FCM Devices List
+      description: Retrieves a list of FCM Devices.
+      tags:
+        - fcm-devices
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FCMDevice'
+              example:
+                - id: 116
+                  name: SM-S908E
+                  registration_id: >-
+                    fiAoL1KmSamqpGY4_TdF48:APA91bHLt0jAMMgBRVanMJgwGRAiMTpPsVDbsQsRr2Wj1aA2X2nrHxBQhDJrkqbx7itn0b8OFHGu7Bq1MpRJOcBKsE43aGcFUnyTsHMcMqWUaf9QNEEMJvP36uKimm8srnELa0swNmSB
+                  device_id: TP1A.220624.014
+                  active: true
+                  date_created: 2023-10-26 08:01
+                  type: android
+                - id: 102
+                  name: NE2211
+                  registration_id: >-
+                    cVimpfoRT762cmjkl8MHyg:APA91bE_Tla3LI7htK4AB7AneAjCBFpQzt3jYcMNo15_PUD09mbCHidcFPHcGnBHD0NkQFbohv-HPlQ586yyRh2CU0f7SDobRhO2PifweqEhDLDY0BUd9d3t7_Wx6_IFwUGyS0ImFa5a
+                  device_id: SKQ1.220617.001
+                  active: true
+                  date_created: 2023-10-25 08:28
+                  type: android
+                - id: 101
+                  name: SM-A245F
+                  registration_id: >-
+                    fSCQrd0FQ6-TvuCspRised:APA91bHm4yRbu_w8Qx6VdxnN6mu3Ute6Sws0HGB5U3IZZ0vB-TEZqLtw6BC61bNQZCuz1mpd5coEAIIKElj2MhHsDMCSKR12eDzn6UEJh3ecD8rPIrXYmXWaF8dskB0CAvHX_VpAVd8Z
+                  device_id: TP1A.220624.014
+                  active: true
+                  date_created: 2023-10-25 08:11
+                  type: android
+                - id: 100
+                  name: PFEM10
+                  registration_id: >-
+                    deEhhB-6TX2YPhP0KC88w7:APA91bF8rhkDgfmM_6nORSMK5QNKhKCVOQjXA0YWteo7taQpiHzQMX-SSqOStn_ollEOLsRYSMBoK4KJ2jOur171XXUsVBpGCTccZ0dvTdJQi5PyL-ZFzR62SG2lxoQCQHYU-RROt0aN
+                  device_id: PQ3A.190605.05171606
+                  active: true
+                  date_created: 2023-10-25 07:04
+                  type: android
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    post:
+      operationId: fcm_devices_create
+      summary: Create an FCM Device
+      description: Creates a new FCM Device.
+      tags:
+        - fcm-devices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FCMDevice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FCMDevice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FCMDevice'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FCMDevice'
+              example:
+                id: 121
+                name: Sampletestdevice
+                registration_id: '123'
+                device_id: '123'
+                active: true
+                date_created: 2023-10-27 18:29
+                type: web
+          description: Successful Response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registration_id:
+                    type: string
+                    description: Error messages related to the 'registration_id' field.
+                  type:
+                    type: string
+                    description: Error messages related to the 'type' field.
+              example:
+                registration_id:
+                  - This field is required.
+                type:
+                  - This field is required.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/fcm-devices/{registration_id}:
+    get:
+      operationId: fcm_devices_retrieves
+      summary: Retrieve an FCM Device
+      description: Retrieves an FCM Device by its registration ID.
+      tags:
+        - fcm-devices
+      parameters:
+        - name: registration_id
+          in: path
+          required: true
+          description: The registration ID of the FCM Device.
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FCMDevice'
+              example:
+                - id: 100
+                  name: PFEM10
+                  registration_id: >-
+                    deEhhB-6TX2YPhP0KC88w7:APA91bF8rhkDgfmM_6nORSMK5QNKhKCVOQjXA0YWteo7taQpiHzQMX-SSqOStn_ollEOLsRYSMBoK4KJ2jOur171XXUsVBpGCTccZ0dvTdJQi5PyL-ZFzR62SG2lxoQCQHYU-RROt0aN
+                  device_id: PQ3A.190605.05171606
+                  active: true
+                  date_created: 2023-10-25 07:04
+                  type: android
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    patch:
+      operationId: fcm_devices_partial_update
+      summary: Modify an FCM Device
+      description: Partially updates details of a specific FCM device.
+      tags:
+        - fcm-devices
+      parameters:
+        - name: registration_id
+          in: path
+          required: true
+          description: The registration ID of the FCM Device.
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FCMDevice'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FCMDevice'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FCMDevice'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FCMDevice'
+              example:
+                - id: 100
+                  name: PFEM10
+                  registration_id: >-
+                    deEhhB-6TX2YPhP0KC88w7:APA91bF8rhkDgfmM_6nORSMK5QNKhKCVOQjXA0YWteo7taQpiHzQMX-SSqOStn_ollEOLsRYSMBoK4KJ2jOur171XXUsVBpGCTccZ0dvTdJQi5PyL-ZFzR62SG2lxoQCQHYU-RROt0aN
+                  device_id: PQ3A.190605.05171606
+                  active: true
+                  date_created: 2023-10-25 07:04
+                  type: ios
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/memos/:
+    get:
+      operationId: memos_list
+      summary: Get Memos List
+      description: Retrieves a list of memos.
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+      tags:
+        - memos
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Memos'
+                description: List of memo items.
+              example:
+                count: 4
+                results:
+                  - id: auBNFFTiaQXn2ukHU2KhBQ
+                    utype: owner
+                    temp_utype: ''
+                    album:
+                      id: VoWpVYpUwCgmbub4XAQZg8
+                      owner: Demo AssetPass
+                      status_label: Stored for Future
+                      status_name: CONFIRMED
+                      created: 2023-10-25 07:05
+                      modified: 2023-10-25 11:51
+                      name: 'My Archive #1'
+                      status: 2
+                    modified: 2023-10-27 17:21
+                    read: false
+                    data: {}
+                    message: >-
+                      <strong>Sampletest</strong> has not responded to your
+                      invitation to download the AssetPass app
+                    created: 2023-10-27 17:21
+                  - id: dQC3DY3XoXWt26Tb92oLHi
+                    utype: owner
+                    temp_utype: ''
+                    album:
+                      id: VoWpVYpUwCgmbub4XAQZg8
+                      owner: Demo AssetPass
+                      status_label: Stored for Future
+                      status_name: CONFIRMED
+                      created: 2023-10-25 07:05
+                      modified: 2023-10-25 11:51
+                      name: 'My Archive #1'
+                      status: 2
+                    modified: 2023-10-25 11:51
+                    read: true
+                    data: {}
+                    message: >-
+                      <strong>SampleName</strong> has not responded to your
+                      invitation to download the AssetPass app
+                    created: 2023-10-25 09:11
+                  - id: Uv4SYH3ghWLTsXA4Sq5UEH
+                    utype: owner
+                    temp_utype: ''
+                    album:
+                      id: VoWpVYpUwCgmbub4XAQZg8
+                      owner: Demo AssetPass
+                      status_label: Stored for Future
+                      status_name: CONFIRMED
+                      created: 2023-10-25 07:05
+                      modified: 2023-10-25 11:51
+                      name: 'My Archive #1'
+                      status: 2
+                    modified: 2023-10-25 11:52
+                    read: true
+                    data: {}
+                    message: >-
+                      <strong>Sample Name</strong> has registered. Open the app
+                      to automatically exchange archive details.
+                    created: 2023-10-25 09:06
+                  - id: fsJjvKdqMDSnMY6SCqQrLJ
+                    utype: owner
+                    temp_utype: ''
+                    album:
+                      id: VoWpVYpUwCgmbub4XAQZg8
+                      owner: Demo AssetPass
+                      status_label: Stored for Future
+                      status_name: CONFIRMED
+                      created: 2023-10-25 07:05
+                      modified: 2023-10-25 11:51
+                      name: 'My Archive #1'
+                      status: 2
+                    modified: 2023-10-25 09:08
+                    read: true
+                    data: {}
+                    message: >-
+                      <strong>Sample Name</strong> has registered. Open the app
+                      to automatically exchange archive details.
+                    created: 2023-10-25 09:06
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    post:
+      operationId: memos_create
+      summary: Create a Memo
+      description: Creates a new Memo.
+      tags:
+        - memos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemosCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemosCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemosCreate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Memos'
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/memos/{id}:
+    get:
+      operationId: memos_retrieve
+      summary: Get a Memo
+      description: Retrieves a Memo by its ID.
+      tags:
+        - memos
+      parameters:
+        - name: id
+          in: path
+          description: ID of the Memo to retrieve.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemosID'
+              example:
+                - id: auBNFFTiaQXn2ukHU2KhBQ
+                  utype: owner
+                  temp_utype: ''
+                  album:
+                    id: VoWpVYpUwCgmbub4XAQZg8
+                    owner: Demo AssetPass
+                    status_label: Stored for Future
+                    status_name: CONFIRMED
+                    created: 2023-10-25 07:05
+                    modified: 2023-10-25 11:51
+                    name: 'My Archive #1'
+                    status: 2
+                  modified: 2023-10-27 17:21
+                  read: false
+                  data: {}
+                  message: >-
+                    <strong>Sampletest</strong> has not responded to your
+                    invitation to download the AssetPass app
+                  created: 2023-10-27 17:21
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    put:
+      operationId: memos_update
+      summary: Update a Memo
+      description: Updates a Memo by its ID.
+      tags:
+        - memos
+      parameters:
+        - name: id
+          in: path
+          description: ID of the Memo to update.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemosUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemosUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemosUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemosUpdate'
+              example:
+                id: string
+                utype: string
+                temp_utype: string
+                album:
+                  id: string
+                  owner: string
+                  status_label: string
+                  status_name: string
+                  created: '2023-11-17T16:09:34.475Z'
+                  modified: '2023-11-17T16:09:34.475Z'
+                  name: string
+                  status: 1
+                modified: '2023-11-17T16:09:34.475Z'
+                read: true
+                data:
+                  additionalProp1: string
+                  additionalProp2: string
+                  additionalProp3: string
+                message: string
+                created: '2023-11-17T16:09:34.475Z'
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/memos/count/:
+    get:
+      operationId: memos_counts_retrieve
+      summary: Get Memos Count
+      description: Retrieves the total number of memos.
+      tags:
+        - memos
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    mcount:
+                      type: integer
+                      description: The memo count.
+              example:
+                - mcount: 0
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/memos/mark_all_read/:
+    post:
+      summary: Mark Memos as Read
+      operationId: memos_mark_all_read_create
+      description: Marks all memos as read.
+      tags:
+        - memos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemosMarkAllReadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemosMarkAllReadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemosMarkAllReadRequest'
+        required: true
+      responses:
+        '204':
+          description: All Memos Marked as Read Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/recipients/:
+    get:
+      operationId: recipients_list
+      summary: Get Recipients List
+      description: Retrieves a list of recipients.
+      parameters:
+        - in: query
+          name: album
+          schema:
+            type: string
+          description: The archive that you need the recipients of.
+          required: true
+      tags:
+        - recipients
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipientRequest'
+              example:
+                - id: KBTcpv7tzKxJ7ECuhLGwBs
+                  full_name: Sample Name
+                  status_label: Pending
+                  status_name: PENDING
+                  created: 2023-10-25 07:05
+                  modified: 2023-10-25 07:05
+                  status: 0
+                  email: sample@example.com
+                  next: null
+                  counter: 1
+                  album: VoWpVYpUwCgmbub4XAQZg8
+                - id: EfzdiRMKjp9RHdGS9wFWJx
+                  full_name: Sample Name2
+                  status_label: Pending
+                  status_name: PENDING
+                  created: 2023-10-25 07:06
+                  modified: 2023-10-25 07:06
+                  status: 0
+                  email: sample@gmail.com
+                  next: null
+                  counter: 1
+                  album: VoWpVYpUwCgmbub4XAQZg8
+                - id: M8gmMo7VbrhrR38J8D7iG3
+                  full_name: Sample Name
+                  status_label: Pending
+                  status_name: PENDING
+                  created: 2023-10-25 08:30
+                  modified: 2023-10-25 08:30
+                  status: 0
+                  email: sample@example.com
+                  next: null
+                  counter: 1
+                  album: VoWpVYpUwCgmbub4XAQZg8
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+    post:
+      operationId: recipients_create
+      summary: Create a Recipient
+      description: Creates a new recipient.
+      tags:
+        - recipients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRecipientRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateRecipientRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateRecipientRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipientRequest'
+              example:
+                id: XFaL85rFvUZjSPdF9YUVf3
+                full_name: Sample Name
+                status_label: Pending
+                status_name: PENDING
+                created: 2023-10-27 17:32
+                modified: 2023-10-27 17:32
+                status: 0
+                email: sample@gmail.com
+                next: null
+                counter: 1
+                album: 39pbKyVoUFwprt8tm2CWvu
+          description: Successful Response
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: array
+                    items:
+                      type: string
+                    description: Error message related to the 'Album' field.
+              example:
+                error: Album not found
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+  /api/recipients/{id}/:
+    get:
+      operationId: recipients_retrieve
+      summary: Get a Recipient
+      description: Retrieves a recipient by ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the recipient.
+          required: true
+      tags:
+        - recipients
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipientRequest'
+              example:
+                id: string
+                full_name: string
+                status_label: string
+                status_name: string
+                created: '2023-11-22T16:15:22.960Z'
+                modified: '2023-11-22T16:15:22.960Z'
+                status: 0
+                email: user@example.com
+                next: '2023-11-22T16:15:22.960Z'
+                counter: 2147483647
+                album: string
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    delete:
+      operationId: recipients_destroy
+      summary: Delete a Recipient
+      description: Deletes a specific recipient by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the recipient.
+          required: true
+      tags:
+        - recipients
+      responses:
+        '204':
+          description: Recipient Deleted Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/recipients/{id}/accept/:
+    post:
+      operationId: recipients_accept_create
+      summary: Recipient Accept
+      description: Accepts a specfic request for a recipient by ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the request.
+          required: true
+      tags:
+        - recipients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipientRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipientRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipientRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipientRequest'
+              example:
+                id: string
+                full_name: string
+                status_label: string
+                status_name: string
+                created: '2023-11-22T16:15:22.960Z'
+                modified: '2023-11-22T16:15:22.960Z'
+                status: 0
+                email: user@example.com
+                next: '2023-11-22T16:15:22.960Z'
+                counter: 2147483647
+                album: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/recipients/{id}/reject/:
+    post:
+      operationId: recipients_reject_create
+      summary: Recipient Reject
+      description: Rejects a specfic request for a recipient by ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the request.
+          required: true
+      tags:
+        - recipients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipientRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RecipientRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecipientRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipientRequest'
+              example:
+                id: string
+                full_name: string
+                status_label: string
+                status_name: string
+                created: '2023-11-22T16:15:22.960Z'
+                modified: '2023-11-22T16:15:22.960Z'
+                status: 0
+                email: user@example.com
+                next: '2023-11-22T16:15:22.960Z'
+                counter: 2147483647
+                album: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/trustees/:
+    get:
+      operationId: trustees_list
+      summary: Get Trustees List
+      description: Retrieves a list of trustees.
+      parameters:
+        - in: query
+          name: album
+          schema:
+            type: string
+          description: The archive that you need the trustees for.
+          required: true
+      tags:
+        - trustees
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrusteeRequest'
+              example:
+                - id: fDePf6KcnMncqw8nsYXYVb
+                  full_name: Sample Name
+                  status_label: Key Sending
+                  status_name: KEY_SENDING
+                  created: 2023-10-25 07:05
+                  modified: 2023-10-25 09:11
+                  status: 1
+                  email: sample@example.com
+                  next: 2023-10-25 09:10
+                  counter: 0
+                  releasor: false
+                  user: 121
+                  album: VoWpVYpUwCgmbub4XAQZg8
+                - id: 3JqaKvfPtPqYKGujPGsBHY
+                  full_name: Sample Name 2
+                  status_label: Key Sending
+                  status_name: KEY_SENDING
+                  created: 2023-10-25 07:05
+                  modified: 2023-10-25 09:11
+                  status: 1
+                  email: sample@gmail.com
+                  next: 2023-10-25 09:10
+                  counter: 0
+                  releasor: false
+                  user: 120
+                  album: VoWpVYpUwCgmbub4XAQZg8
+                - id: gLo35wLfqGeUHH8Jn3iXkq
+                  full_name: SampleName
+                  status_label: Pending
+                  status_name: PENDING
+                  created: 2023-10-25 08:30
+                  modified: 2023-10-25 09:11
+                  status: 0
+                  email: sample@gmail.com
+                  next: null
+                  counter: 0
+                  releasor: false
+                  user: null
+                  album: VoWpVYpUwCgmbub4XAQZg8
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+    post:
+      operationId: trustees_create
+      summary: Create a Trustee
+      description: Creates a trustees for a specific archive.
+      tags:
+        - trustees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTrusteeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateTrusteeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateTrusteeRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrusteeRequest'
+              example:
+                id: fACHGfnDvv4FnHC4miVwcq
+                full_name: Sampletest
+                status_label: Pending
+                status_name: PENDING
+                created: 2023-10-27 17:09
+                modified: 2023-10-27 17:09
+                status: 0
+                email: sample@gmail.com
+                next: null
+                counter: 1
+                releasor: false
+                user: null
+                album: VoWpVYpUwCgmbub4XAQZg8
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+  /api/trustees/{id}/:
+    get:
+      operationId: trustees_retrieve
+      summary: Get a Trustee
+      description: Retrieves a trustee by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the trustee.
+          required: true
+      tags:
+        - trustees
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrusteeRequest'
+              example:
+                id: string
+                full_name: string
+                status_label: string
+                status_name: string
+                created: '2023-11-22T16:17:05.696Z'
+                modified: '2023-11-22T16:17:05.696Z'
+                status: 0
+                email: user@example.com
+                next: '2023-11-22T16:17:05.696Z'
+                counter: 2147483647
+                releasor: true
+                user: 0
+                album: string
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+    delete:
+      operationId: trustees_destroy
+      summary: Delete a Trustee
+      description: Deletes a trustee by its ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the trustee.
+          required: true
+      tags:
+        - trustees
+      responses:
+        '204':
+          description: Trustee Deleted Successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/trustees/{id}/accept/:
+    post:
+      operationId: trustees_accept_create
+      summary: Trustee Accept
+      description: Accepts a specfic request for a trustee by ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the request.
+          required: true
+      tags:
+        - trustees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrusteeRequest'
+            example:
+              status: 0
+              email: user@example.com
+              next: '2023-11-22T16:20:48.418Z'
+              counter: 2147483647
+              releasor: true
+              user: 0
+              album: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrusteeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrusteeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrusteeRequest'
+              example:
+                id: string
+                full_name: string
+                status_label: string
+                status_name: string
+                created: '2023-11-23T06:46:54.961Z'
+                modified: '2023-11-23T06:46:54.961Z'
+                status: 0
+                email: user@example.com
+                next: '2023-11-23T06:46:54.961Z'
+                counter: 2147483647
+                releasor: true
+                user: 0
+                album: string
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/trustees/{id}/reject/:
+    post:
+      operationId: trustees_reject_create
+      summary: Trustee Reject
+      description: Rejects a specfic request for a trustee by ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            title: UUID
+          description: A unique value identifying the request.
+          required: true
+      tags:
+        - trustees
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrusteeRequest'
+            example:
+              status: 0
+              email: user@example.com
+              next: '2023-11-22T16:21:33.885Z'
+              counter: 2147483647
+              releasor: true
+              user: 0
+              album: string
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrusteeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrusteeRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrusteeRequest'
+              example:
+                id: string
+                full_name: string
+                status_label: string
+                status_name: string
+                created: '2023-11-23T06:50:03.975Z'
+                modified: '2023-11-23T06:50:03.975Z'
+                status: 0
+                email: user@example.com
+                next: '2023-11-23T06:50:03.975Z'
+                counter: 2147483647
+                releasor: true
+                user: 0
+                album: string
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/users/:
+    get:
+      operationId: users_list
+      summary: Get Users List
+      description: Retrieves a list of users.
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+        - name: page_size
+          required: false
+          in: query
+          description: Number of results to return per page.
+          schema:
+            type: integer
+      tags:
+        - users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomUserList'
+              example:
+                count: 123
+                next: http://api.example.org/accounts/?page=4
+                previous: http://api.example.org/accounts/?page=2
+                results:
+                  - full_name: string
+                    albums_size: string
+                    status_read: string
+                    roles: string
+                    date_joined: '2023-11-23T06:51:20.444Z'
+                    country: st
+                    phone: string
+                    username: >-
+                      o.AkF51TktPY_DQWW75kjIwzRHCY9C+hZEkUcBlTEjRnIw4pB35.m+fgZWaL
+                    email: user@example.com
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+  /api/users/{username}/:
+    get:
+      operationId: users_retrieve
+      summary: Get a User
+      description: Retrieve a user by username.
+      parameters:
+        - in: path
+          name: username
+          schema:
+            type: string
+          description: The username of the user.
+          required: true
+      tags:
+        - users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+              example:
+                full_name: string
+                albums_size: string
+                status_read: string
+                roles: string
+                date_joined: '2023-11-22T16:18:57.522Z'
+                country: st
+                phone: string
+                username: >-
+                  xroH6aC0V2foRwEJo+ai.9sBnH+E6sEmhAkglQFE955g5++nOu@p191VUR-KsSXNCKzoSK71YadRIc
+                email: user@example.com
+          description: Successful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Not found.
+  /api/users/profile/:
+    get:
+      operationId: users_profile_retrieve
+      summary: Get a User's Profile
+      description: Retrieves the current user's profile.
+      tags:
+        - users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+              example:
+                full_name: Demo AssetPass
+                country: ''
+                phone: '1231231'
+                email: demo@assetpass.com
+                username: UNJiA9r4izPpTimRfAFVQj
+          description: Succesful Response
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+    put:
+      operationId: users_profile_update
+      summary: Update a User's Profile
+      description: Updates a user's profile.
+      tags:
+        - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomUser'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomUser'
+              example:
+                full_name: string
+                albums_size: string
+                status_read: string
+                roles: string
+                date_joined: '2023-11-23T07:09:09.300Z'
+                country: st
+                phone: string
+                username: .Mdy0+TtJ9ERN8+H8IiT
+                email: user@example.com
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    description: The error detail.
+              example:
+                detail: Authentication credentials were not provided.
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    MemosMarkAllReadRequest:
+      type: object
+      properties:
+        utype:
+          type: string
+          description: The user type.
+        temp_utype:
+          type: string
+          description: The temporary user type.
+        album:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The archive name.
+            status:
+              type: integer
+              description: The archive status.
+          description: Archive object.
+        read:
+          type: boolean
+          description: The flag indicating if the memo has been read.
+        data:
+          type: object
+          additionalProperties:
+            type: string
+          description: The additional data properties.
+        message:
+          type: string
+          description: The memo message.
+      required:
+        - utype
+        - album
+        - read
+        - data
+        - message
+    MemosUpdate:
+      type: object
+      properties:
+        utype:
+          type: string
+          description: The user type.
+        temp_utype:
+          type: string
+          description: The temporary user type.
+        album:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The name of the archive
+            status:
+              type: integer
+              description: The status of the archive.
+          required:
+            - name
+            - status
+          description: Details of the archive associated with the memo.
+        read:
+          type: boolean
+          description: The flag indicating whether the memo has been read.
+        data:
+          type: object
+          properties:
+            additionalProp1:
+              type: string
+              description: Additional property 1.
+            additionalProp2:
+              type: string
+              description: Additional property 2.
+            additionalProp3:
+              type: string
+              description: Additional property 3.
+          description: Additional data associated with the memo.
+        message:
+          type: string
+          description: The message associated with the memo.
+      required:
+        - utype
+        - temp_utype
+        - album
+        - read
+        - data
+        - message
+    MemosID:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the memo.
+        utype:
+          type: string
+          description: The user type.
+        temp_utype:
+          type: string
+          description: The temporary user type.
+        album:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The unique identifier for the archive.
+            owner:
+              type: string
+              description: The owner of the archive.
+            status_label:
+              type: string
+              description: The status label of the archive.
+            status_name:
+              type: string
+              description: The status name of the archive.
+            created:
+              type: string
+              format: date-time
+              description: The date and time when the archive was created.
+            modified:
+              type: string
+              format: date-time
+              description: The date and time when the archive was last modified.
+            name:
+              type: string
+              description: The name of the archive.
+            status:
+              type: integer
+              description: The status of the archive.
+          required:
+            - id
+            - owner
+            - status_label
+            - status_name
+            - created
+            - modified
+            - name
+            - status
+          description: The details of the archive associated with the memo.
+        modified:
+          type: string
+          format: date-time
+          description: The date and time when the memo was last modified.
+        read:
+          type: boolean
+          description: The flag indicating whether the memo has been read.
+        data:
+          type: object
+          properties:
+            additionalProp1:
+              type: string
+              description: Additional property 1.
+            additionalProp2:
+              type: string
+              description: Additional property 2.
+            additionalProp3:
+              type: string
+              description: Additional property 3.
+          description: Additional data associated with the memo.
+        message:
+          type: string
+          description: The message associated with the memo.
+        created:
+          type: string
+          format: date-time
+          description: The date and time when the memo was created.
+      required:
+        - id
+        - utype
+        - temp_utype
+        - album
+        - modified
+        - read
+        - data
+        - message
+        - created
+    MemosCreate:
+      type: object
+      properties:
+        utype:
+          type: string
+          description: The user type.
+        temp_utype:
+          type: string
+          description: The temporary user type.
+        album:
+          type: object
+          properties:
+            name:
+              type: string
+              description: The name of the archive.
+            status:
+              type: integer
+              description: The status of the archive.
+          required:
+            - name
+            - status
+          description: Details of the archive associated with the memo.
+        read:
+          type: boolean
+          description: The flag indicating whether the result has been read.
+        data:
+          type: object
+          properties:
+            additionalProp1:
+              type: string
+              description: Additional property 1.
+            additionalProp2:
+              type: string
+              description: Additional property 2.
+            additionalProp3:
+              type: string
+              description: Additional property 3.
+          description: The additional data associated with the memo.
+        message:
+          type: string
+          description: The message associated with the memo.
+      required:
+        - utype
+        - temp_utype
+        - album
+        - read
+        - data
+        - message
+    Memos:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The total count of memos.
+        next:
+          type: string
+          description: Link to the next page of results.
+        previous:
+          type: string
+          description: Link to the previous page of results.
+        results:
+          type: array
+          items:
+            type: object
+            description: The results details.
+            properties:
+              id:
+                type: string
+                description: The unique identifier of the memo.
+              utype:
+                type: string
+                description: The user type.
+              temp_utype:
+                type: string
+                description: The temporary user type.
+              album:
+                type: object
+                description: The album details.
+                properties:
+                  id:
+                    type: string
+                    description: The unique identifier of the album.
+                  owner:
+                    type: string
+                    description: The owner of the archive.
+                  status_label:
+                    type: string
+                    description: The status label of the archive.
+                  status_name:
+                    type: string
+                    description: The status name of the archive.
+                  created:
+                    type: string
+                    format: date-time
+                    description: The date and time when the archive was created.
+                  modified:
+                    type: string
+                    format: date-time
+                    description: The date and time when the archive was last modified.
+                  name:
+                    type: string
+                    description: The name of the archive.
+                  status:
+                    type: integer
+                    description: The status of the archive.
+                required:
+                  - id
+                  - owner
+                  - status_label
+                  - status_name
+                  - created
+                  - modified
+                  - name
+                  - status
+              modified:
+                type: string
+                format: date-time
+                description: The date and time when the memo was last modified.
+              read:
+                type: boolean
+                description: The flag indicating whether the memo has been read.
+              data:
+                type: object
+                properties:
+                  additionalProp1:
+                    type: string
+                    description: Additional property 1.
+                  additionalProp2:
+                    type: string
+                    description: Additional property 2.
+                  additionalProp3:
+                    type: string
+                    description: Additional property 3.
+                description: Additional data associated with the memo.
+              message:
+                type: string
+                description: The message associated with the memo.
+              created:
+                type: string
+                format: date-time
+                description: The date and time when the memo was created.
+            required:
+              - id
+              - utype
+              - temp_utype
+              - album
+              - modified
+              - read
+              - data
+              - message
+              - created
+      required:
+        - count
+        - next
+        - previous
+        - results
+    Action:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: A unique value identifying the action.
+        title:
+          type: string
+          maxLength: 400
+          description: The title of the action.
+        body:
+          type: string
+          maxLength: 400
+          description: The user name.
+        utype:
+          type: string
+          maxLength: 50
+          description: The type of the user.
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The date-time when the action was created.
+        album:
+          type: string
+          title: UUID
+          nullable: true
+          description: A unique value identifying the archive.
+        album_name:
+          type: string
+          description: The archive name.
+        status_label:
+          type: string
+          description: The label indicating the status of the action.
+        status_name:
+          type: string
+          description: The name of the actions status.
+      required:
+        - created
+        - id
+    ActionCreate:
+      type: object
+      properties:
+        user:
+          type: integer
+          description: A unique value identifying the user.
+        album_id:
+          type: string
+          description: A unique value identifying the archive.
+        utype:
+          type: string
+          description: The type of the user.
+        atype:
+          type: string
+          description: The type of the action.
+        status:
+          type: integer
+          description: The status of the action.
+        body:
+          type: string
+          description: The user name.
+    ActionUpdate:
+      type: object
+      properties:
+        completed:
+          type: boolean
+          description: Indicated whether the action was completed or not.
+        status:
+          allOf:
+            - $ref: '#/components/schemas/ActionUpdateStatusEnum'
+          minimum: 0
+          maximum: 32767
+          description: The status of the action.
+    ActionUpdateStatusEnum:
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      type: integer
+      description: |-
+        * `0` - Pending
+        * `1` - Request Sent
+        * `2` - Request Done
+        * `3` - Request Complete
+    PatchArchive:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: A unique identifier of the archive.
+          example: 4PK4nBdAKeJxoEP3zy3PNY
+        status_label:
+          type: string
+          readOnly: true
+          description: The label representing the status of the archive.
+          example: Draft
+        status_name:
+          type: string
+          readOnly: true
+          description: The name of the archives status.
+          example: DRAFT
+        share_status:
+          type: string
+          readOnly: true
+          description: The share status of the archive.
+          example: 0
+        owner:
+          type: string
+          readOnly: true
+          description: The owner of the archive.
+          example: Demo AssetPass
+        action:
+          type: string
+          readOnly: true
+          description: The action type of the archive.
+          example: {}
+        album_size:
+          type: string
+          readOnly: true
+          description: The size of the archive.
+          example: 0 bytes
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The creation timestamp of the archive.
+          example: 2023-10-25 11:52
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The last modification timestamp of the archive.
+          example: 2023-10-25 11:52
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: The name of the archive.
+          example: 'Archive #2'
+        thumbnail:
+          type: string
+          nullable: true
+          title: Thumbnail Base64
+          description: The base64 thumbnail of the archive.
+          example: null
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+          title: Deadline date
+          description: The deadline date of the archive.
+          example: null
+        size:
+          type: integer
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          format: int64
+          description: The size in bytes of all banked items of an archive.
+          example: 0
+        status:
+          allOf:
+            - $ref: '#/components/schemas/StatusD1bEnum'
+          minimum: 0
+          maximum: 32767
+          description: The status of the archive.
+          example: 1
+        confirmed_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date when the archive was first confirmed.
+          example: null
+        release_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The release date of the archive.
+          example: null
+        delete_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The deletion date of the archive.
+          example: null
+        next:
+          type: string
+          format: date-time
+          nullable: true
+          description: The timestamp for the next action of the archive.
+          example: null
+        counter:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The counter value.
+          example: 1
+    Archive:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: A unique identifier of the archive.
+          example: 4PK4nBdAKeJxoEP3zy3PNY
+        status_label:
+          type: string
+          readOnly: true
+          description: The label representing the status of the archive.
+          example: Draft
+        status_name:
+          type: string
+          readOnly: true
+          description: The archives status.
+          example: DRAFT
+        share_status:
+          type: string
+          readOnly: true
+          description: The share status of the archive.
+          example: 0
+        owner:
+          type: string
+          readOnly: true
+          description: The owner of the archive.
+          example: Demo AssetPass
+        action:
+          type: string
+          readOnly: true
+          description: The action type of the archive.
+          example: {}
+        album_size:
+          type: string
+          readOnly: true
+          description: The size of the archive.
+          example: 0 bytes
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The creation timestamp of the archive.
+          example: 2023-10-25 11:52
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The last modification timestamp of the archive.
+          example: 2023-10-25 11:52
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: The name of the archive.
+          example: 'Archive #2'
+        thumbnail:
+          type: string
+          nullable: true
+          title: Thumbnail Base64
+          description: The base64 thumbnail of the archive.
+          example: null
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+          title: Deadline date
+          description: The deadline date of the archive.
+          example: null
+        size:
+          type: integer
+          maximum: 9223372036854776000
+          minimum: -9223372036854776000
+          format: int64
+          description: The size in bytes of all banked items of an archive.
+          example: 0
+        status:
+          allOf:
+            - $ref: '#/components/schemas/StatusD1bEnum'
+          minimum: 0
+          maximum: 32767
+          description: The status of the archive.
+          example: 1
+        confirmed_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date when the archive was first confirmed.
+          example: null
+        release_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The release date of the archive.
+          example: null
+        delete_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: The deletion date of the archive.
+          example: null
+        next:
+          type: string
+          format: date-time
+          nullable: true
+          description: The timestamp for the next action of the archive.
+          example: null
+        counter:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The counter value.
+          example: 1
+      required:
+        - action
+        - album_size
+        - created
+        - id
+        - modified
+        - owner
+        - share_status
+        - status_label
+        - status_name
+    PatchArchiveItem:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: The unique archive item identifier.
+        item_size:
+          type: string
+          readOnly: true
+          description: The archive item size in bytes.
+        item_name:
+          type: string
+          readOnly: true
+          description: The archive item name.
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The creation date and time of the archive item.
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The last modification date and time of the archive item.
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: The name of the archive item.
+        iv:
+          type: string
+          nullable: true
+          maxLength: 200
+          description: The initialization vector for item encryption.
+        item_type:
+          $ref: '#/components/schemas/ItemTypeEnum'
+        extension:
+          type: string
+          maxLength: 50
+          description: The extension type of the archive item.
+        checksum:
+          type: string
+          nullable: true
+          title: File checksum MD5
+          description: The MD5 checksum for the archive item.
+          maxLength: 255
+        checksum_sha256:
+          type: string
+          nullable: true
+          title: File checksum SHA256
+          maxLength: 255
+          description: The SHA256 checksum for the archive item.
+        file:
+          type: string
+          format: uri
+          description: The archive item file.
+    ArchiveItem:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: The unique archive item identifier.
+        item_size:
+          type: string
+          readOnly: true
+          description: The archive item size in bytes.
+        item_name:
+          type: string
+          readOnly: true
+          description: The archive item name.
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The creation date and time of the archive item.
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The last modification date and time of the archive item.
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: The name of the archive item.
+        iv:
+          type: string
+          nullable: true
+          maxLength: 200
+          description: The initialization vector for item encryption.
+        item_type:
+          $ref: '#/components/schemas/ItemTypeEnum'
+        extension:
+          type: string
+          maxLength: 50
+          description: The extension type of the archive item.
+        checksum:
+          type: string
+          nullable: true
+          title: File checksum MD5
+          description: The MD5 checksum for the archive item.
+          maxLength: 255
+        checksum_sha256:
+          type: string
+          nullable: true
+          title: File checksum SHA256
+          maxLength: 255
+          description: The SHA256 checksum for the archive item.
+        file:
+          type: string
+          format: uri
+          description: The archive item file.
+      required:
+        - created
+        - file
+        - id
+        - item_name
+        - item_size
+        - item_type
+        - modified
+    CreateArchive:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the archive.
+      required:
+        - name
+    CreateArchiveItem:
+      type: object
+      properties:
+        album:
+          type: string
+          title: UUID
+          description: The unique identifier of the archive.
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: The name of the archive item.
+        item_type:
+          $ref: '#/components/schemas/ItemTypeEnum'
+        checksum:
+          type: string
+          nullable: true
+          title: File checksum MD5
+          description: The MD5 checksum of the archive item.
+          maxLength: 255
+        extension:
+          type: string
+          maxLength: 50
+          description: The extension type of the archive item.
+        file:
+          type: string
+          format: uri
+          description: The archive item file.
+        iv:
+          type: string
+          nullable: true
+          maxLength: 200
+          description: The initialization vector of the archive item for encryption.
+      required:
+        - album
+        - file
+        - item_type
+    FCMDevice:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          description: The unique identifier of an FCM device.
+        name:
+          type: string
+          nullable: true
+          maxLength: 255
+          description: The name of the FCM device.
+        registration_id:
+          type: string
+          title: Registration token
+          description: The registration ID of an FCM device.
+        device_id:
+          type: string
+          nullable: true
+          description: The unique device identifier.
+          maxLength: 255
+        active:
+          type: boolean
+          default: true
+          title: Is active
+          description: >-
+            The active status of an FCm device. The inactive devices will not be
+            sent notifications.
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+          title: Creation date
+          description: The creation date of the FCM device.
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+      required:
+        - date_created
+        - id
+        - registration_id
+        - type
+    ItemTypeEnum:
+      enum:
+        - mes
+        - acc
+        - med
+        - doc
+        - seed
+        - nft
+      type: string
+      description: |-
+        The type of the archive item, it can be one of the following:
+        * `mes` - Message
+        * `acc` - Digital Account
+        * `med` - Media
+        * `doc` - Document
+        * `seed` - Seed Phrase
+        * `nft` - NFT
+    StatusD1bEnum:
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      type: integer
+      description: |-
+        * `1` - Draft
+        * `2` - Stored for Future
+        * `3` - Pending Release
+        * `4` - Released
+    RecipientRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: A unique identifier of the recipient.
+          example: KBTcpv7tzKxJ7ECuhLGwBs
+        full_name:
+          type: string
+          readOnly: true
+          description: The full name of the recipient.
+          example: SampleName
+        status_label:
+          type: string
+          readOnly: true
+          description: The label representing the status of the recipient.
+          example: Pending
+        status_name:
+          type: string
+          readOnly: true
+          description: The status name.
+          example: PENDING
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The date of creation.
+          example: 2023-10-25 07:05
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The date of modification.
+          example: 2023-10-25 07:05
+        status:
+          allOf:
+            - $ref: '#/components/schemas/StatusB02Enum'
+          minimum: 0
+          maximum: 32767
+          description: The status value.
+          example: 0
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: The email of the recipient.
+          example: recipient@example.com
+        next:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date-time of next action item.
+          example: null
+        counter:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The counter.
+          example: 1
+        album:
+          type: string
+          title: UUID
+          description: A unique identifier of the archive.
+          example: VoWpVYpUwCgmbub4XAQZg8
+      required:
+        - album
+        - created
+        - full_name
+        - id
+        - modified
+        - status_label
+        - status_name
+    StatusB02Enum:
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      type: integer
+      description: |-
+        * `0` - Pending
+        * `1` - Key Sending
+        * `2` - Key Sent
+        * `3` - Key Accepted
+        * `4` - Key Received
+        * `5` - Key Rejected
+    TypeEnum:
+      enum:
+        - ios
+        - android
+        - web
+      type: string
+      description: |-
+        The type of the FCM device, it can be one of the following:
+        * `ios` - ios
+        * `android` - android
+        * `web` - web
+    CreateRecipientRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: The email of the recipient.
+          example: recipient@example.com
+        full_name:
+          type: string
+          description: The full name of the recipient.
+          example: Sample Name
+        album:
+          type: string
+          title: UUID
+          description: A unique identifier of the archive.
+          example: 39pbKyVoUFwprt8tm2CWvu
+      required:
+        - album
+        - email
+        - full_name
+    TrusteeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          title: UUID
+          description: A unique identifier of the trustee.
+          example: fDePf6KcnMncqw8nsYXYVb
+        full_name:
+          type: string
+          readOnly: true
+          description: The full name of the trustee.
+          example: Sample Name
+        status_label:
+          type: string
+          readOnly: true
+          description: The label representing the status of the trustee.
+          example: Key Sending
+        status_name:
+          type: string
+          readOnly: true
+          description: The status name of trustee.
+          example: KEY_SENDING
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The date of creation.
+          example: 2023-10-25 07:05
+        modified:
+          type: string
+          format: date-time
+          readOnly: true
+          description: The date of modification.
+          example: 2023-10-25 09:11
+        status:
+          allOf:
+            - $ref: '#/components/schemas/StatusB02Enum'
+          minimum: 0
+          maximum: 32767
+          description: The status value.
+          example: 1
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: The email of the trustee.
+          example: sample@example.com
+        next:
+          type: string
+          format: date-time
+          nullable: true
+          description: The date-time of the next action item.
+          example: 2023-10-25 09:10
+        counter:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The counter value.
+          example: 0
+        releasor:
+          type: boolean
+          description: Whether the archive is ready to be released or not.
+          example: false
+        user:
+          type: integer
+          nullable: true
+          description: A unique identifier of the user.
+          example: 121
+        album:
+          type: string
+          title: UUID
+          description: A unique identifier of the archive.
+          example: VoWpVYpUwCgmbub4XAQZg8
+      required:
+        - album
+        - created
+        - full_name
+        - id
+        - modified
+        - status_label
+        - status_name
+    CreateTrusteeRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: The email of the trustee.
+          example: trustee@example.com
+        full_name:
+          type: string
+          description: The full name of the trustee.
+          example: Sample Trustee
+        album:
+          type: string
+          title: UUID
+          description: The unique identifier of the archive.
+          example: VoWpVYpUwCgmbub4XAQZg8
+      required:
+        - album
+        - email
+        - full_name
+    PaginatedCustomUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The pagination count.
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          description: Link to the next page of results.
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          description: Link to the previous page of results.
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomUser'
+          description: The result details.
+          example: []
+    CustomUser:
+      type: object
+      properties:
+        full_name:
+          type: string
+          title: First name
+          maxLength: 500
+          description: The full name of the user.
+          example: Demo AssetPass
+        albums_size:
+          type: string
+          readOnly: true
+          description: The size of the archive.
+          example: 87 bytes
+        status_read:
+          type: string
+          readOnly: true
+          description: The read status.
+          example: ''
+        roles:
+          type: string
+          readOnly: true
+          description: The user's role.
+          example: User
+        date_joined:
+          type: string
+          format: date-time
+          description: The date of joining.
+          example: 2023-10-25 09:10
+        country:
+          type: string
+          title: SG
+          maxLength: 2
+          description: The name of the country
+          example: Indonesia
+        phone:
+          type: string
+          maxLength: 100
+          description: The phone number.
+          example: '1231231'
+        username:
+          type: string
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+          description: >-
+            The user name. It can contain 150 characters or fewer. It can
+            consist of letters, digits and @/./+/-/_ only.
+          example: UNJiA9r4izPpTimRfAFVQj
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+          description: The email of the user.
+          example: demo@assetpass.com
+      required:
+        - albums_size
+        - roles
+        - status_read
+        - username
+    UserProfile:
+      type: object
+      properties:
+        full_name:
+          type: string
+          title: First name
+          maxLength: 500
+          description: The full name of the user.
+          example: Demo AssetPass
+        country:
+          type: string
+          title: SG
+          maxLength: 2
+          description: The name of the country
+          example: Indonesia
+        phone:
+          type: string
+          maxLength: 100
+          description: The phone number.
+          example: '1231231'
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+          description: The email of the user.
+          example: demo@assetpass.com
+        username:
+          type: string
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+          description: >-
+            The user name. It can contain 150 characters or fewer. It can
+            consist of letters, digits and @/./+/-/_ only.
+          example: UNJiA9r4izPpTimRfAFVQj
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
