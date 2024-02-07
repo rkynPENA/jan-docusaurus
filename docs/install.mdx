@@ -18,12 +18,13 @@ Ensure that your MacOS version is 13 or higher to run Jan.
 
         ### Stable Releases
 
-        For stable releases, go to [jan.ai](https://jan.ai/)
+        For stable releases, go to [jan.ai](https://jan.ai/).
         For MacOS, the download should be available as a `.dmg` file with the following format.
 
         ```sh
         # Intel Mac
         jan-mac-x64-{version}.dmg
+
         # Apple Silicon Mac
         jan-mac-arm64-{version}.dmg
         ```
@@ -31,7 +32,7 @@ Ensure that your MacOS version is 13 or higher to run Jan.
         ### GitHub Releases
 
         Jan is also available from [Jan's GitHub Releases](https://github.com/janhq/jan/releases) page.
-        
+
         Within the Releases' assets, you will find the following files for MacOS.
 
         ```sh
@@ -54,8 +55,8 @@ Considering that Jan is in development mode, there's a chance for you to stuck i
 
         To uninstall,
 
-        1. Delete Jan from your `/Applications` folder
-        2. Delete Application data
+        1. Delete Jan from your `/Applications` folder.
+        2. Delete Application data.
 
         ```sh
         # Newer versions
@@ -65,7 +66,7 @@ Considering that Jan is in development mode, there's a chance for you to stuck i
         rm -rf ~/Library/Application\ Support/jan-electron
         ```
 
-        3. Clear Application cache
+        3. Clear Application cache.
 
         ```sh
         rm -rf ~/Library/Caches/jan*
@@ -98,11 +99,49 @@ To enable GPU support, you will need:
 
         ### Stable Releases
 
-        For stable releases, go to [jan.ai](https://jan.ai/)
+        For stable releases, go to [jan.ai](https://jan.ai/).
+        For Windows, the download should be available as a `.exe` file in the following format.
+
+        ```sh
+        jan-win-x64-{version}.exe
+        ```
 
         ### GitHub Releases
 
+        Jan is also available from [Jan's GitHub Releases](https://github.com/janhq/jan/releases) page.
+
+        Within the Releases' assets, you will find the following files for Windows.
+
+        ```sh
+        # Windows Installers
+        jan-win-x64-{version}.exe
+        ```
+
+        ### Default Installation Directory
+
+        By default, Jan is installed in the following directory:
+
+        ```sh
+        # Default installation directory
+        C:\Users\{username}\AppData\Local\Programs\Jan
+        ```
+
         ### Uninstall
+
+:::warning
+
+Considering that Jan is in development mode, there's a chance for you to stuck in a broken build.
+
+:::
+
+        To uninstall Jan on Windows, use the [Windows Control Panel](https://support.microsoft.com/en-us/windows/uninstall-or-remove-apps-and-programs-in-windows-4b55f974-2cc6-2d2b-d092-5905080eaf98).
+
+        To remove all user data associated with Jan, you can delete the `/jan` directory in Windows' [AppData directory](https://superuser.com/questions/632891/what-is-appdata).
+
+        ```sh
+        cd C:\Users\%USERNAME%\AppData\Roaming
+        rmdir /S jan
+        ```
 
     </TabItem>
     <TabItem value="linux" label="Linux">
@@ -116,11 +155,78 @@ To enable GPU support, you will need:
 
         ### Stable Releases
 
-        For stable releases, go to [jan.ai](https://jan.ai/)
+        For stable releases, go to [jan.ai](https://jan.ai/).
+        For Linux, the download should be available as a `.AppImage` file or a `.deb` file in the following format.
+
+        ```sh
+        # AppImage
+        jan-linux-x86_64-{version}.AppImage
+
+        # Debian Linux distribution
+        jan-linux-amd64-{version}.deb
+        ```
+        To install Jan on Linux, you should use your package manager's install or `dpkg``.
+        
+        For Debian/Ubuntu-based distributions, you can install Jan using the following command:
+
+        ```sh
+        # Install Jan using dpkg
+        sudo dpkg -i jan-linux-amd64-{version}.deb
+
+        # Install Jan using apt-get
+        sudo apt-get install ./jan-linux-amd64-{version}.deb
+        # where jan-linux-amd64-{version}.deb is path to the Jan package
+        ```
+
+        For other Linux distributions, you launch the AppImage file without installation. 
+        
+        To do so, you need to make the AppImage file executable and then run it. 
+        
+        You can do this either through your file manager's properties dialog or with the following commands:
+
+        ```sh
+        # Install Jan using AppImage
+        chmod +x jan-linux-x86_64-{version}.AppImage
+        ./jan-linux-x86_64-{version}.AppImage
+        # where jan-linux-x86_64-{version}.AppImage is path to the Jan package
+        ```
 
         ### GitHub Releases
 
+        Jan is also available from [Jan's GitHub Releases](https://github.com/janhq/jan/releases) page.
+
+        Within the Releases' assets, you will find the following files for Linux.
+
+        ```sh
+        # Debian Linux distribution
+        jan-linux-amd64-{version}.deb
+
+        # AppImage
+        jan-linux-x86_64-{version}.AppImage
+        ```
+
         ### Uninstall
+
+:::warning
+
+Considering that Jan is in development mode, there's a chance for you to stuck in a broken build.
+
+:::
+
+        To uninstall Jan on Linux, you should use your package manager's uninstall or remove option. 
+        
+        For Debian/Ubuntu-based distributions, if you installed Jan via the `.deb` package, you can uninstall Jan using the following command.MDXContent
+
+        ```sh
+        sudo apt-get remove jan
+        # where jan is the name of Jan package
+        ```
+
+        For other Linux distributions, if you installed Jan via the `.AppImage` file, you can uninstall Jan by deleting the `.AppImage` file.
+
+        In case you wish to completely remove all user data associated with Jan after uninstallation, you can delete the user data folders located at `~/jan`.
+        
+        This will return your system to its state prior to the installation of Jan. This method can also be used to reset all settings if you are experiencing any issues with Jan.
 
     </TabItem>
 </Tabs>
