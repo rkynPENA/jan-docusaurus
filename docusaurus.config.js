@@ -98,7 +98,7 @@ const config = {
             label: 'Guides',
           },
           { to: "/api", label: "API Reference", position: "left" },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          { href: 'https://github.com/janhq/jan/releases', label: 'Changelog', position: 'left' },
           {
             href: 'https://www.penateam.com/',
             label: 'Built by Pena',
@@ -147,10 +147,10 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Changelog',
-                href: 'https://github.com/janhq/jan/releases',
-              },
+              // {
+              //   label: 'Changelog',
+              //   href: 'https://github.com/janhq/jan/releases',
+              // },
               {
                 label: 'Career',
                 href: 'https://janai.bamboohr.com/careers',

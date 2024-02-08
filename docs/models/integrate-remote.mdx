@@ -16,13 +16,9 @@ In this guide, we will show you how to configure Jan as a client and point it to
 
 ### 1. Create a Model JSON
 
-Navigate to the `~/jan/models` folder. Create a folder named `gpt-3.5-turbo-16k` and create a `model.json` file inside the folder including the following configurations:
+In `~/jan/models`, create a folder named `gpt-3.5-turbo-16k`.
 
- - Ensure the filename must be `model.json`.
- - Ensure the `id` property matches the folder name you created.
- - Ensure the `format` property is set to api.
- - Ensure the `engine` property is set to openai.
- - Ensure the `state` property is set to ready.
+In this folder, add a `model.json` file with Filename as `model.json`, `id` matching folder name, `Format` as `api`, `Engine` as `openai`, and `State` as `ready`
 
 
 ```json title="~/jan/models/gpt-3.5-turbo-16k/model.json"
@@ -83,9 +79,9 @@ Currently, you can only connect to one OpenAI compatible endpoint at a time.
 
 ### 1. Configure a Client Connection
 
-Navigate to the `~/jan/engines` folder and modify the `openai.json` file. Please note that at the moment the code that supports any openai compatible endpoint only reads `engine/openai.json` file, thus, it will not search any other files in this directory.
+Go to `~/jan/engines` and edit `openai.json`. Only the `engine/openai.json` file is recognized for openai-compatible endpoints. 
 
-Configure `full_url` properties with the endpoint server that you want to connect. For example, if you want to connect to Jan's API server, you can configure it as follows:
+Configure `full_url` with the desired endpoint server, e.g., for Jan's API server:
 
 ```json title="~/jan/engines/openai.json"
 {
@@ -98,13 +94,10 @@ Configure `full_url` properties with the endpoint server that you want to connec
 
 ### 2. Create a Model JSON
 
-Navigate to the `~/jan/models` folder. Create a folder named `mistral-ins-7b-q4` and create a `model.json` file inside the folder including the following configurations:
+ In `~/jan/models`, create a folder named `mistral-ins-7b-q4`.
 
- - Ensure the filename must be `model.json`.
- - Ensure the `id` property matches the folder name you created.
- - Ensure the `format` property is set to api.
- - Ensure the `engine` property is set to openai.
- - Ensure the `state` property is set to ready.
+In this folder, add a `model.json` file with Filename as `model.json`, `id` matching folder name, `Format` as `api`, `Engine` as `openai`, and `State` as `ready`
+
 
 ```json title="~/jan/models/mistral-ins-7b-q4/model.json"
 {
