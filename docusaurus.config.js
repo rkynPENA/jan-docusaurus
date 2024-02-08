@@ -131,6 +131,10 @@ const config = {
               //   href: 'https://stackoverflow.com/questions/tagged/docusaurus',
               // },
               {
+                label: 'GitHub',
+                href: 'https://github.com/janhq/jan',
+              },
+              {
                 label: 'Discord',
                 href: 'https://discord.gg/FTk2MvZwJH',
               },
@@ -148,8 +152,8 @@ const config = {
                 href: 'https://github.com/janhq/jan/releases',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/janhq/jan',
+                label: 'Career',
+                href: 'https://janai.bamboohr.com/careers',
               },
             ],
           },
