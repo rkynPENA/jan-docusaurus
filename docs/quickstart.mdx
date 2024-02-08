@@ -8,11 +8,11 @@ import TabItem from '@theme/TabItem';
 
 # Quickstart
 
-After finish installing, here are steps for using Jan
+{/* After finish installing, here are steps for using Jan
 
 ## Run Jan
 
-{/* <Tabs>
+<Tabs>
     <TabItem value="mac" label="MacOS" default>
         1. Search Jan in the Dock and run the program.
     </TabItem>
@@ -30,35 +30,22 @@ After finish installing, here are steps for using Jan
 
 4. A new thread will be added. You can use Jan in the thread with the AI model that you selected before. */}
 
-This guide will help you identify your critical assets and their risk-scored vulnerabilities, begin 24/7 threat monitoring, and browse a sample incident in under 10 minutes.
+This guide will help you to use the desired AI models, setting up the threads, and chat with the model.
 
-### Step 1: Connecting assets
-Assets are a core ORNA concept and are required to enable a host of ORNA’s key functionalities, such as Alerts, Incidents, and Vulnerability Management. Start with adding assets that need to be protected by navigating to the Assets section and either:
+### Step 1: Using The AI Model
 
-Downloading and launching ORNA’s automated installer;
-Importing assets from a CSV list, such as a ServiceNow export;
-Or adding assets manually one by one.
+Before using Jan, it is necessary to select the model that are supported by the program.
 
-Note: Options #2 and #3 will require you to manually install ORNA’s Scout agent on every asset you’d like to enable Alerts and Vulnerability Management.
+Each models have their own purposes, capabilities, and different requrements. You can choose which model that can fulfil your requirements based on their proficiency.
 
-To learn more, go to the Asset Management section of the guide.
+For more info, go to [list of supported models](/docs/models-list/). 
 
-### Step 2: Creating a team
-Next, navigate to the My Team section and populate your details, including Hours Available per Month and notification settings.
+### Step 2: Setting Up a Thread
 
-Most importantly, assign yourself a role that fits your set of responsibilities in the context of cyber risk management and incident response in your organization. Team roles are crucial to ORNA’s determining automatic incident response task assignments, escalation procedures, and more.
+After set the model, it is necessary to set your thread before chat with the model.
 
-ORNA comes with various technical (CIRT Leader, Core CIRT Member, Third Party IT) and administrative (HR, Legal, CEO/COO, and others) roles. Those roles must be assigned appropriately to the person responsible for the respective duties within your organization.
+There are few settings you can consider, such as title for the thread, set the assistant instructions, and set the type of model along with the API key.
 
-You can view and customize roles, including creating your own, by clicking the Roles link at the top of the My Team section.
+### Step 3: Chat with the model
 
-Once finished with your profile, you can set up the rest of your team by clicking the + button in the top right corner of the My Team section and inviting your colleagues.
-
-Note that ORNA’s seats are unlimited and do not affect the pricing.
-
-### Step 3: Adding Incidents
-Suppose you successfully set up a monitored asset (indicated by the green eye icon next to the asset in the Assets dashboard) during Step 1 of this guide. In that case, ORNA will allow you to automatically upgrade any Alert to an Incident in a single step. To learn more about this, go to the Alert Management section of the guide.  
-
-However, you can create an Incident manually without an underlying Alert.
-
-To manually create an Incident, navigate to the Incidents section and click the + button in the top right corner. The system will ask you a series of questions related to the incident, which are essential for determining the impact and urgency of the incident, reconstructing its’ timeline, determining the Playbook to invoke and escalations to use, team members that should participate in the incident resolution, and more. To learn more about this, go to the Incident Management section of the guide.
+After setting up the model and the thread, you can now chat with the model and use them based on your requirements.
