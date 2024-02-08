@@ -10,7 +10,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 const config = {
   title: 'Jan',
   tagline: 'The desktop open-source ChatGPT that suits you',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/9.png',
 
   // Set the production url of your site here
   url: 'https://docusaurus-2.netlify.app', // Url to your site with no trailing slash
