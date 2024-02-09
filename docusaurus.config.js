@@ -98,7 +98,7 @@ const config = {
             label: 'Guides',
           },
           { to: "/api", label: "API Reference", position: "left" },
-          { href: 'https://github.com/janhq/jan/releases', label: 'Changelog', position: 'left' },
+          { href: '/docs/category/changelog', label: 'Changelog', position: 'left' },
           {
             href: 'https://www.penateam.com/',
             label: 'Built by Pena',
