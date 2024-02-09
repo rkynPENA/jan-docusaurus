@@ -134,41 +134,43 @@ To enable GPU support, you will need:
         
         the download should be available as a `.AppImage` file or a `.deb` file.
 
-        <Tabs>
+        <Tabs groupid="linus_type">
             <TabItem value="linux_main" label="Linux">
             
                 To install Jan, you should use your package manager's install or `dpkg`.
         
             </TabItem>
             <TabItem value="deb_ub" label="Debian / Ubuntu">
+            
+                To install Jan, you can install Jan using the following command:
+
+                ```sh
+                # Install Jan using dpkg
+                sudo dpkg -i jan-linux-amd64-{version}.deb
+
+                # Install Jan using apt-get
+                sudo apt-get install ./jan-linux-amd64-{version}.deb
+                # where jan-linux-amd64-{version}.deb is path to the Jan package
+                ```
+
             </TabItem>
             <TabItem value="other" label="Other">
+
+                To install Jan, you launch the AppImage file without installation. 
+                
+                To do so, you need to make the AppImage file executable and then run it. 
+                
+                You can do this either through your file manager's properties dialog or with the following commands:
+
+                ```sh
+                # Install Jan using AppImage
+                chmod +x jan-linux-x86_64-{version}.AppImage
+                ./jan-linux-x86_64-{version}.AppImage
+                # where jan-linux-x86_64-{version}.AppImage is path to the Jan package
+                ```
+
             </TabItem>
         </Tabs>
-
-        For Debian/Ubuntu-based distributions, you can install Jan using the following command:
-
-        ```sh
-        # Install Jan using dpkg
-        sudo dpkg -i jan-linux-amd64-{version}.deb
-
-        # Install Jan using apt-get
-        sudo apt-get install ./jan-linux-amd64-{version}.deb
-        # where jan-linux-amd64-{version}.deb is path to the Jan package
-        ```
-
-        For other Linux distributions, you launch the AppImage file without installation. 
-        
-        To do so, you need to make the AppImage file executable and then run it. 
-        
-        You can do this either through your file manager's properties dialog or with the following commands:
-
-        ```sh
-        # Install Jan using AppImage
-        chmod +x jan-linux-x86_64-{version}.AppImage
-        ./jan-linux-x86_64-{version}.AppImage
-        # where jan-linux-x86_64-{version}.AppImage is path to the Jan package
-        ```
 
         ### Nightly Releases
 
@@ -182,7 +184,7 @@ Considering that Jan is in development mode, there's a chance for you to stuck i
 
 :::
 
-        <Tabs>
+        <Tabs groupid="linus_type">
             <TabItem value="linux_main" label="Linux">
 
                 To uninstall Jan, you should use your package manager's uninstall or remove option. 
