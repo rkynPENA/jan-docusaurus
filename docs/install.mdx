@@ -134,7 +134,7 @@ To enable GPU support, you will need:
         
         the download should be available as a `.AppImage` file or a `.deb` file.
 
-        <Tabs groupid="linux_type">
+        <Tabs groupId="linux_type">
             <TabItem value="linux_main" label="Linux">
             
                 To install Jan, you should use your package manager's install or `dpkg`.
@@ -184,28 +184,30 @@ Considering that Jan is in development mode, there's a chance for you to stuck i
 
 :::
 
-        <Tabs groupid="linux_type">
+        <Tabs groupId="linux_type">
             <TabItem value="linux_main" label="Linux">
 
                 To uninstall Jan, you should use your package manager's uninstall or remove option. 
         
             </TabItem>
             <TabItem value="deb_ub" label="Debian / Ubuntu">
+            
+                To uninstall Jan,, if you installed Jan via the `.deb` package, you can uninstall Jan using the following command.MDXContent
+
+                ```sh
+                sudo apt-get remove jan
+                # where jan is the name of Jan package
+                ```
+
             </TabItem>
             <TabItem value="other" label="Other">
+            
+                To uninstall Jan, if you installed Jan via the `.AppImage` file, you can uninstall Jan by deleting the `.AppImage` file.
+
+                In case you wish to completely remove all user data associated with Jan after uninstallation, you can delete the user data folders located at `~/jan`.
+                
             </TabItem>
         </Tabs>
-
-        For Debian/Ubuntu-based distributions, if you installed Jan via the `.deb` package, you can uninstall Jan using the following command.MDXContent
-
-        ```sh
-        sudo apt-get remove jan
-        # where jan is the name of Jan package
-        ```
-
-        For other Linux distributions, if you installed Jan via the `.AppImage` file, you can uninstall Jan by deleting the `.AppImage` file.
-
-        In case you wish to completely remove all user data associated with Jan after uninstallation, you can delete the user data folders located at `~/jan`.
         
         This will return your system to its state prior to the installation of Jan. This method can also be used to reset all settings if you are experiencing any issues with Jan.
 
