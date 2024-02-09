@@ -20,11 +20,12 @@ Ensure that your MacOS version is 13 or higher to run Jan.
         ### Stable Releases
 
         For stable releases, go to [jan.ai](https://jan.ai/).
-        For MacOS, the download should be available as a `.dmg`.
 
-        ### GitHub Releases
+        The download should be available as a `.dmg`.
 
-        Jan is also available from [Jan's GitHub Releases](https://github.com/janhq/jan/releases) page.
+        ### Nightly Releases
+
+        Jan is also available for more experimental version from jan's Discord in the [`#nightly-builds`](https://discord.gg/q8szebnxZ7) channel.
 
         ### Uninstall
 
@@ -81,11 +82,12 @@ To enable GPU support, you will need:
         ### Stable Releases
 
         For stable releases, go to [jan.ai](https://jan.ai/).
-        For Windows, the download should be available as a `.exe` file.
+        
+        The download should be available as a `.exe` file.
 
-        ### GitHub Releases
+        ### Nightly Releases
 
-        Jan is also available from [Jan's GitHub Releases](https://github.com/janhq/jan/releases) page.
+        Jan is also available for more experimental version from jan's Discord in the [`#nightly-builds`](https://discord.gg/q8szebnxZ7) channel.
 
         ### Default Installation Directory
 
@@ -116,69 +118,117 @@ Considering that Jan is in development mode, there's a chance for you to stuck i
     </TabItem>
     <TabItem value="linux" label="Linux">
 
-:::warning
-Ensure that your system meets the following requirements:
- - glibc 2.27 or higher (check with `ldd --version`)
- - gcc 11, g++ 11, cpp 11, or higher, refer to this link for more information.
+        :::warning
+        Ensure that your system meets the following requirements:
+        - glibc 2.27 or higher (check with `ldd --version`)
+        - gcc 11, g++ 11, cpp 11, or higher, refer to this link for more information.
 
-To enable GPU support, you will need:
- - NVIDIA GPU with CUDA Toolkit 11.7 or higher
- - NVIDIA driver 470.63.01 or higher
-:::
+        To enable GPU support, you will need:
+        - NVIDIA GPU with CUDA Toolkit 11.7 or higher
+        - NVIDIA driver 470.63.01 or higher
+        :::
 
-        ### Stable Releases
+        <Tabs>
+            <TabItem value="linux" label="Linux">
 
-        For stable releases, go to [jan.ai](https://jan.ai/).
-        For Linux, the download should be available as a `.AppImage` file or a `.deb` file.
+                ### Stable Releases
 
-        To install Jan on Linux, you should use your package manager's install or `dpkg``.
-        
-        For Debian/Ubuntu-based distributions, you can install Jan using the following command:
+                For stable releases, go to [jan.ai](https://jan.ai/).
+                
+                the download should be available as a `.AppImage` file or a `.deb` file.
 
-        ```sh
-        # Install Jan using dpkg
-        sudo dpkg -i jan-linux-amd64-{version}.deb
+                To install Jan, you should use your package manager's install or `dpkg`.
 
-        # Install Jan using apt-get
-        sudo apt-get install ./jan-linux-amd64-{version}.deb
-        # where jan-linux-amd64-{version}.deb is path to the Jan package
-        ```
+                ### Nightly Releases
 
-        For other Linux distributions, you launch the AppImage file without installation. 
-        
-        To do so, you need to make the AppImage file executable and then run it. 
-        
-        You can do this either through your file manager's properties dialog or with the following commands:
+                Jan is also available for more experimental version from jan's Discord in the [`#nightly-builds`](https://discord.gg/q8szebnxZ7) channel.
 
-        ```sh
-        # Install Jan using AppImage
-        chmod +x jan-linux-x86_64-{version}.AppImage
-        ./jan-linux-x86_64-{version}.AppImage
-        # where jan-linux-x86_64-{version}.AppImage is path to the Jan package
-        ```
+                ### Uninstall
 
-        ### GitHub Releases
+        :::warning
 
-        Jan is also available from [Jan's GitHub Releases](https://github.com/janhq/jan/releases) page.
+        Considering that Jan is in development mode, there's a chance for you to stuck in a broken build.
 
-        ### Uninstall
+        :::
 
-:::warning
+                To uninstall Jan, you should use your package manager's uninstall or remove option. 
 
-Considering that Jan is in development mode, there's a chance for you to stuck in a broken build.
+            </TabItem>
+            <TabItem value="deb-ub" label="Debian / Ubuntu">
 
-:::
+                ### Stable Releases
 
-        To uninstall Jan on Linux, you should use your package manager's uninstall or remove option. 
-        
-        For Debian/Ubuntu-based distributions, if you installed Jan via the `.deb` package, you can uninstall Jan using the following command.MDXContent
+                For stable releases, go to [jan.ai](https://jan.ai/).
+                
+                the download should be available as a `.AppImage` file or a `.deb` file.
 
-        ```sh
-        sudo apt-get remove jan
-        # where jan is the name of Jan package
-        ```
+                To install Jan, you can install Jan using the following command:
 
-        For other Linux distributions, if you installed Jan via the `.AppImage` file, you can uninstall Jan by deleting the `.AppImage` file.
+                ```sh
+                # Install Jan using dpkg
+                sudo dpkg -i jan-linux-amd64-{version}.deb
+
+                # Install Jan using apt-get
+                sudo apt-get install ./jan-linux-amd64-{version}.deb
+                # where jan-linux-amd64-{version}.deb is path to the Jan package
+                ```
+
+                ### Nightly Releases
+
+                Jan is also available for more experimental version from jan's Discord in the [`#nightly-builds`](https://discord.gg/q8szebnxZ7) channel.
+
+                ### Uninstall
+
+        :::warning
+
+        Considering that Jan is in development mode, there's a chance for you to stuck in a broken build.
+
+        :::
+
+                For Debian/Ubuntu-based distributions, if you installed Jan via the `.deb` package, you can uninstall Jan using the following command.MDXContent
+
+            ```sh
+            sudo apt-get remove jan
+            # where jan is the name of Jan package
+            ```
+
+            </TabItem>
+            <TabItem value="other" label="Other">
+
+                ### Stable Releases
+
+                For stable releases, go to [jan.ai](https://jan.ai/).
+                
+                the download should be available as a `.AppImage` file or a `.deb` file.
+
+                To install Jan, you launch the AppImage file without installation. 
+                
+                To do so, you need to make the AppImage file executable and then run it. 
+                
+                You can do this either through your file manager's properties dialog or with the following commands:
+
+                ```sh
+                # Install Jan using AppImage
+                chmod +x jan-linux-x86_64-{version}.AppImage
+                ./jan-linux-x86_64-{version}.AppImage
+                # where jan-linux-x86_64-{version}.AppImage is path to the Jan package
+                ```
+                
+                ### Nightly Releases
+
+                Jan is also available for more experimental version from jan's Discord in the [`#nightly-builds`](https://discord.gg/q8szebnxZ7) channel.
+
+                ### Uninstall
+
+        :::warning
+
+        Considering that Jan is in development mode, there's a chance for you to stuck in a broken build.
+
+        :::
+                For other Linux distributions, if you installed Jan via the `.AppImage` file, you can uninstall Jan by deleting the `.AppImage` file.
+
+            </TabItem>
+        </Tabs>
 
         In case you wish to completely remove all user data associated with Jan after uninstallation, you can delete the user data folders located at `~/jan`.
         
